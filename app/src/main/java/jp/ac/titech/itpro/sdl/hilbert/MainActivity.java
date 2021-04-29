@@ -1,14 +1,17 @@
 package jp.ac.titech.itpro.sdl.hilbert;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-
+    private final static String TAG = "MainActivity";
+    private final static String ORDER_NUM = "MainActivity.order";
     private final static int MAX_ORDER = 9;
     private int order = 1;
 
@@ -21,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (savedInstanceState != null) {
+            order = savedInstanceState.getInt(ORDER_NUM);
+        }
 
         orderView = findViewById(R.id.order_view);
         hilbertView = findViewById(R.id.hilbert_view);
@@ -49,6 +55,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         display();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(TAG, "onSaveInstanceState");
+        outState.putInt(ORDER_NUM,order);
     }
 
     private void display() {
